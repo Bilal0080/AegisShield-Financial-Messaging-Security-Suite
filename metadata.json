@@ -1,0 +1,6 @@
+{
+  "name": "AegisShield Financial & Messaging Security Suite",
+  "description": "Enterprise-grade financial security platform featuring real-time phishing detection filters, biometric transaction MFA, WhatsApp Web end-to-end encryption verification, post-purchase GDPR/CCPA data zeroization, and role-based SOC compliance dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
