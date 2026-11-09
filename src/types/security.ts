@@ -137,3 +137,37 @@ export interface SystemRegionStatus {
   throughput: string;
   encryptionStatus: 'AES-256-GCM Active';
 }
+
+export type BinanceAiAttackType = 
+  | 'deepfake_biometric_spoof'
+  | 'ai_agent_flash_drain'
+  | 'llm_adversarial_phishing'
+  | 'unidentified_geo_velocity'
+  | 'automated_headless_bot';
+
+export interface BinanceAiThreatIncident {
+  id: string;
+  attackType: BinanceAiAttackType;
+  title: string;
+  description: string;
+  detectionSignature: string;
+  riskConfidence: number; // 0 - 100
+  sourceIp: string;
+  location: string;
+  timestamp: string;
+  mitigationAction: 'kill_switch_activated' | 'withdrawal_frozen_24h' | 'api_key_revoked' | 'deepfake_rejected';
+  status: 'intercepted_and_neutralized' | 'under_quarantine';
+}
+
+export interface BinanceAccountGuardState {
+  accountUid: string;
+  antiPhishingCode: string;
+  accountStatus: 'secure_active' | 'emergency_frozen' | 'withdrawal_cooldown';
+  yubiKeyFidoEnforced: boolean;
+  withdrawalWhitelistOnly: boolean;
+  aiDeepfakeProtection: boolean;
+  apiIpWhitelistEnforced: boolean;
+  activeCooldownHoursRemaining: number;
+  blockedAiAttacksCount: number;
+}
+

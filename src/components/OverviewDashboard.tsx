@@ -10,7 +10,8 @@ import {
   ArrowRight,
   ExternalLink,
   CheckCircle2,
-  Server
+  Server,
+  Cpu
 } from 'lucide-react';
 import { SYSTEM_REGIONS } from '../services/threatStream';
 import { SecurityAlert, ComplianceAuditLog } from '../types/security';
@@ -152,7 +153,26 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
           <span className="text-xs text-slate-400 font-mono">Real-time Sentinel Active</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <button
+            onClick={() => onNavigate('binance')}
+            className="p-4 rounded-lg border border-slate-800 hover:border-amber-500/50 bg-slate-950/60 hover:bg-slate-800/60 transition-all text-left group"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">
+                Binance AI Shield
+              </span>
+              <Cpu className="w-4 h-4 text-slate-400 group-hover:text-amber-400" />
+            </div>
+            <p className="text-xs text-slate-400 line-clamp-2">
+              Stops AI deepfake KYC bypass, flash-drain API bots, and impossible geo-velocity.
+            </p>
+            <div className="mt-3 flex items-center gap-1.5 text-xs text-amber-400 font-medium">
+              <span>Inspect Binance Shield</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+            </div>
+          </button>
+
           <button
             onClick={() => onNavigate('phishing')}
             className="p-4 rounded-lg border border-slate-800 hover:border-indigo-500/50 bg-slate-950/60 hover:bg-slate-800/60 transition-all text-left group"

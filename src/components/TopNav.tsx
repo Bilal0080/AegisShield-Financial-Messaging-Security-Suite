@@ -30,6 +30,7 @@ export const TopNav: React.FC<TopNavProps> = ({
 }) => {
   const navItems = [
     { id: 'overview', label: 'SOC Overview' },
+    { id: 'binance', label: 'Binance AI Shield' },
     { id: 'phishing', label: 'Phishing Guardian' },
     { id: 'banking_mfa', label: 'Biometric Banking' },
     { id: 'whatsapp', label: 'WhatsApp E2EE' },

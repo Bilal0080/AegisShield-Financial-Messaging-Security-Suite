@@ -14,12 +14,14 @@ import { ComplianceAuditor } from './components/ComplianceAuditor';
 import { RbacManager } from './components/RbacManager';
 import { AlertCenterModal } from './components/AlertCenterModal';
 import { ApiDocumentation } from './components/ApiDocumentation';
+import { BinanceAiDefense } from './components/BinanceAiDefense';
 import { 
   UserRole, 
   SecurityAlert, 
   ComplianceAuditLog, 
   PhishingScanResult, 
-  BankingTransaction 
+  BankingTransaction,
+  BinanceAiThreatIncident
 } from './types/security';
 import { INITIAL_ALERTS } from './services/threatStream';
 import { INITIAL_AUDIT_LOGS } from './services/complianceEngine';
@@ -150,6 +152,60 @@ export default function App() {
     showToast('CRITICAL: Account quarantined due to biometric mismatch!', 'warning');
   };
 
+  // Handle Binance AI Attack Blocked
+  const handleBinanceAiBlocked = (incident: BinanceAiThreatIncident) => {
+    setBlockedCount(prev => prev + 1);
+
+    const newLog: ComplianceAuditLog = {
+      id: `LOG-${Date.now().toString().slice(-4)}`,
+      timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+      userId: 'BIN-UID-98210492',
+      actor: 'Binance AI Sentinel Core',
+      event: `AI Attack Neutralized: ${incident.title}`,
+      category: 'phishing_defense',
+      severity: 'critical',
+      details: `${incident.description} Detection: ${incident.detectionSignature}. Defense: ${incident.mitigationAction}`,
+      ipAddress: incident.sourceIp,
+      regulationTag: 'GLBA',
+      integrityHash: `0x${Math.random().toString(16).substring(2, 10)}b11a`
+    };
+
+    setAuditLogs(prev => [newLog, ...prev]);
+
+    const newAlert: SecurityAlert = {
+      id: `ALT-${Date.now().toString().slice(-4)}`,
+      title: `BINANCE DEFENSE: ${incident.title}`,
+      description: `Targeting UID-98210492. Origin: ${incident.location}. Action: ${incident.mitigationAction.replace(/_/g, ' ')}.`,
+      severity: 'critical',
+      source: 'SOC Vulnerability Monitor',
+      timestamp: 'Just now',
+      acknowledged: false,
+      quarantineTriggered: true,
+      channel: 'email_and_push'
+    };
+
+    setAlerts(prev => [newAlert, ...prev]);
+    showToast(`Binance Shield: ${incident.title}`, 'warning');
+  };
+
+  // Handle Binance Emergency Kill-Switch
+  const handleEmergencyLockdown = (reason: string) => {
+    const newAlert: SecurityAlert = {
+      id: `ALT-${Date.now().toString().slice(-4)}`,
+      title: 'BINANCE EMERGENCY KILL-SWITCH ENGAGED',
+      description: reason,
+      severity: 'critical',
+      source: 'SOC Vulnerability Monitor',
+      timestamp: 'Just now',
+      acknowledged: false,
+      quarantineTriggered: true,
+      channel: 'email_and_push'
+    };
+
+    setAlerts(prev => [newAlert, ...prev]);
+    showToast('EMERGENCY: Binance Kill-Switch Engaged! All withdrawals locked.', 'warning');
+  };
+
   const handleAcknowledgeAlert = (id: string) => {
     setAlerts(prev => prev.map(a => a.id === id ? { ...a, acknowledged: true } : a));
     showToast('Security alert acknowledged');
@@ -189,6 +245,13 @@ export default function App() {
             biometricCount={biometricCount}
             zeroizedCount={zeroizedCount}
             isOffline={isOffline}
+          />
+        )}
+
+        {activeTab === 'binance' && (
+          <BinanceAiDefense
+            onAiAttackBlocked={handleBinanceAiBlocked}
+            onEmergencyLockdown={handleEmergencyLockdown}
           />
         )}
 
